@@ -1,8 +1,6 @@
 const discord = require('discord.js');
 require('dotenv').config();
 
-const token = process.env.TOKEN;
-
 const client = new discord.Client();
 
 client.on("ready", () => {
@@ -10,7 +8,10 @@ client.on("ready", () => {
 })
 
 client.on("message", (msg) => {
-    console.log("Message received");
+    let command = msg.content.toLowerCase();
+    if (command === 'salve') {
+        msg.channel.send(`Salve ${msg.author.username} :call_me:`);
+    }
 })
 
-client.login(token);
+client.login(process.env.TOKEN);
