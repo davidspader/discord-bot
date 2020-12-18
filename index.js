@@ -10,7 +10,7 @@ client.on("ready", () => {
 client.on("message", (msg) => {
     let command = msg.content.toLowerCase();
     if (command === 'salve') {
-        msg.channel.send(`Salve ${msg.author.username} :call_me:`);
+        msg.reply(`salve :call_me:`);
     }
 })
 
