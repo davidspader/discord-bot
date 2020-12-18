@@ -3,14 +3,23 @@ require('dotenv').config();
 
 const client = new discord.Client();
 
+const prefix = "-";
+const commands = require("./scripts/commandsReader")(prefix);
+console.log(commands);
+
 client.on("ready", () => {
     console.log("Connected!");
 })
 
 client.on("message", (msg) => {
-    let command = msg.content.toLowerCase();
-    if (command === 'salve') {
+    if (msg.content.toLowerCase() === 'salve') {
         msg.reply(`salve :call_me:`);
+    }
+    if (!msg.author.bot) {
+        const args = msg.content.split(" ");
+        if (commands[args[0]]) {
+            commands[args[0]](client, msg);
+        }
     }
 })
 
