@@ -3,9 +3,7 @@ require('dotenv').config();
 
 const client = new discord.Client();
 
-const prefix = "-";
-const commands = require("./scripts/commandsReader")(prefix);
-console.log(commands);
+const commands = require("./scripts/commandsReader")(process.env.PREFIX);
 
 client.on("ready", () => {
     console.log("Connected!");
