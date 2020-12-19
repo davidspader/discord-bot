@@ -1,10 +1,15 @@
-const commands = require("../scripts/commandsReader")(process.env.PREFIX);
+const execute = (client, msg, args) => {
+    let commands = '**HELP:**\n\n';
+    client.commands.forEach((command) => {
+        if (command.help) {
+            commands += `**${process.env.PREFIX}${command.name}**: ${command.help}\n`;
+        }
+    })
+    return msg.channel.send(commands);
+}
 
-module.exports = (client, msg) => {
-    let commandList = '';
-
-    for (var command in commands) {
-        commandList += command + " ";
-    }
-    msg.reply(commandList);
+module.exports = {
+    name: "help",
+    help: "Show all commands",
+    execute,
 }
