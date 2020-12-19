@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const client = new discord.Client();
 client.commands = new discord.Collection();
+client.queues = new Map();
 
 client.commands = require("./scripts/commandsReader")(client.commands);
 
