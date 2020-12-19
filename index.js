@@ -2,8 +2,9 @@ const discord = require('discord.js');
 require('dotenv').config();
 
 const client = new discord.Client();
+client.commands = new discord.Collection();
 
-const commands = require("./scripts/commandsReader")(process.env.PREFIX);
+client.commands = require("./scripts/commandsReader")(client.commands);
 
 client.on("ready", () => {
     console.log("Connected!");
@@ -12,12 +13,19 @@ client.on("ready", () => {
 client.on("message", (msg) => {
     if (msg.content.toLowerCase() === 'salve') {
         msg.reply(`salve :call_me:`);
+        return;
     }
-    if (!msg.author.bot) {
-        const args = msg.content.split(" ");
-        if (commands[args[0]]) {
-            commands[args[0]](client, msg);
-        }
+
+    if (!msg.content.startsWith(process.env.PREFIX) || msg.author.bot) return;
+
+    const args = msg.content.slice(process.env.PREFIX.length).split(" ");
+    const command = args.shift();
+
+    try {
+        client.commands.get(command).execute(client, msg, args);
+    } catch (e) {
+        console.error(e);
+        return msg.reply("Command not found");
     }
 })
 

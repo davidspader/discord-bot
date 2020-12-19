@@ -1,13 +1,13 @@
-const fs = require("fs");
-const dir = "./commands/";
+const fs = require('fs');
+const path = require('path');
 
-module.exports = (prefix) => {
-    var commands = {};
+module.exports = (commands) => {
+    const commandFiles = fs.readdirSync(path.join(__dirname, "../commands")).filter((filename) => filename.endsWith(".js"));
 
-    const scripts = fs.readdirSync(dir);
-    scripts.forEach(script => {
-        commands[prefix + script.split(".")[0]] = require("../" + dir + script);
-    });
+    for (var filename of commandFiles) {
+        const command = require(`../commands/${filename}`);
+        commands.set(command.name, command);
+    }
 
     return commands;
 }
