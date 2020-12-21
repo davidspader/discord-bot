@@ -1,5 +1,5 @@
 const execute = (client, msg, args) => {
-    msg.reply("Pong");
+    return output = 'Pong!';
 }
 
 module.exports = {

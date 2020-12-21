@@ -1,9 +1,10 @@
 const execute = (client, msg, args) => {
     const queue = client.queues.get(msg.guild.id);
     if (!queue) {
-        return msg.reply("No music is playing");
+        return output = "No music is playing";
     }
     queue.dispatcher.resume();
+    return output = "Music was unpaused";
 };
 
 module.exports = {

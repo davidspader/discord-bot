@@ -15,9 +15,3 @@ const execute = (client, msg, args) => {
 
     msg.reply(embed);
 };
-
-module.exports = {
-    name,
-    help,
-    execute,
-};

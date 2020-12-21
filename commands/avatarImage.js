@@ -1,5 +1,5 @@
 const execute = (client, msg, args) => {
-    msg.reply(msg.author.avatarURL());
+    return output = msg.author.avatarURL();
 }
 
 module.exports = {

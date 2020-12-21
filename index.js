@@ -7,6 +7,8 @@ client.queues = new Map();
 
 client.commands = require("./scripts/commandsReader")(client.commands);
 
+const embed = require('./scripts/embed');
+
 client.on("ready", () => {
     console.log("Connected!");
 })
@@ -23,10 +25,16 @@ client.on("message", (msg) => {
     const command = args.shift();
 
     try {
-        client.commands.get(command).execute(client, msg, args);
+        if (!client.commands.get(command).wait) {
+            output = client.commands.get(command).execute(client, msg, args);
+            embed(discord, client, msg, command, output);
+        } else {
+            client.commands.get(command).execute(client, msg, args);
+        }
+
     } catch (e) {
         console.error(e);
-        return msg.reply("Command not found");
+        embed(discord, client, msg, command, "Command not found");
     }
 })
 

@@ -1,3 +1,6 @@
+const discord = require('discord.js');
+const embed = require('../scripts/embed');
+
 const search = require("yt-search");
 const ytdl = require("discord-ytdl-core");
 
@@ -15,7 +18,7 @@ const execute = (client, msg, args) => {
                     client.queues.set(msg.guild.id, queue);
                 } else playSong(client, msg, song);
             } else {
-                return msg.reply("Music not found");
+                return embed(discord, client, msg, "play", "Music not found");
             }
         });
     } catch (e) {
@@ -32,7 +35,7 @@ const playSong = async(client, msg, song) => {
         }
     }
     if (!msg.member.voice.channel) {
-        return msg.reply("you need to be on a voice channel");
+        return embed(discord, client, msg, "play", "You need to be on a voice channel");
     }
     if (!queue) {
         const conn = await msg.member.voice.channel.join();
@@ -53,11 +56,13 @@ const playSong = async(client, msg, song) => {
         playSong(client, msg, queue.songs[0]);
     });
     client.queues.set(msg.member.guild.id, queue);
+    return embed(discord, client, msg, "play", `Playing now: ${song.title}`);
 };
 
 module.exports = {
     name: "play",
     help: "Plays music from youtube",
+    wait: true,
     execute,
     playSong,
 };
