@@ -10,6 +10,7 @@ client.commands = require("./scripts/commandsReader")(client.commands);
 const embed = require('./scripts/embed');
 
 client.on("ready", () => {
+    client.user.setActivity(process.env.PREFIX + 'help', { type: 'LISTENING' });
     console.log("Connected!");
 })
 
